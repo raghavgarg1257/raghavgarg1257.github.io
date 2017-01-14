@@ -187,6 +187,7 @@
 						</div>
 					</form>
 					<p id="thanks_msg">Thanks!</p>
+					<p id="err_msg">Oops! Please fill all the fields.</p>
 				</div>
 				<footer>
 					<ul class="icons">
@@ -221,6 +222,7 @@
 			<script type="text/javascript">
 				(function(){
 					$("#thanks_msg").hide();	
+					$("#err_msg").hide();	
 				})();
 	
 			   $('[name="contact_form"]').on('submit', function(e){
@@ -232,25 +234,30 @@
 			   		let email = $('[name="email"]').val();
 			   		let message = $('[name="message"]').val();
 
-			   		// sending email through emailjs
-			      	emailjs.send(
-			      		// "default_service",
-			      		"gmail",
-			      		"contact_form",{
-		      				from_name: name,
-		      				from_email: email,
-		      				message_html: message
-		      			}
-	      			);
+			   		if (name && email && message) {
+				   		// sending email through emailjs
+				      	emailjs.send(
+				      		// "default_service",
+				      		"gmail",
+				      		"contact_form",{
+			      				from_name: name,
+			      				from_email: email,
+			      				message_html: message
+			      			}
+		      			);
 
-	      			// resetting form and showing thanks message for 5 sec
-			   		setTimeout(function() {
-				   		$('[name="name"]').val("");
-				   		$('[name="email"]').val("");
-				   		$('[name="message"]').val(""); 
-			   			$("#thanks_msg").show(); 
-			   		}, 1000);
-			   		setTimeout(function() { $("#thanks_msg").hide(); }, 5000);
+		      			// resetting form and showing thanks message for 5 sec
+				   		setTimeout(function() {
+					   		$('[name="name"]').val("");
+					   		$('[name="email"]').val("");
+					   		$('[name="message"]').val(""); 
+				   			$("#thanks_msg").show(); 
+				   		}, 1000);
+				   		setTimeout(function() { $("#thanks_msg").hide(); }, 5000);
+			   		} else {
+			   			$("#err_msg").show(); 
+				   		setTimeout(function() { $("#err_msg").hide(); }, 2000);
+			   		}
 			   });
 			</script>
 
